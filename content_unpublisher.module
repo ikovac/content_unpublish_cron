@@ -1,0 +1,43 @@
+<?php
+
+/**
+ * @file
+ * Contains content_unpublisher.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function content_unpublisher_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the content_unpublisher module.
+    case 'help.page.content_unpublisher':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('My Awesome Module') . '</p>';
+      return $output;
+
+    default:
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function content_unpublisher_theme() {
+  return [
+    'content_unpublisher' => [
+      'render element' => 'children',
+    ],
+  ];
+}
+
+/**
+ * Implements hook_cron().
+ */
+function content_unpublisher_cron() {
+  $queue = \Drupal::queue('unpublish_queue');
+  $queue->createItem(REQUEST_TIME);
+}
